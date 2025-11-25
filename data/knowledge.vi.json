@@ -1,0 +1,574 @@
+[
+  {
+    "docId": "Hello",
+    "title": "Lời chào",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "greeting",
+    "keywords": [
+      "xin",
+      "chào",
+      "hello",
+      "hi"
+    ],
+    "content": "Hi, xin chào! Tôi có thể giúp gì cho bạn hôm nay?"
+  },
+  {
+    "docId": "teacher-overview",
+    "title": "Tổng quan chức năng của Teacher",
+    "role": [
+      "teacher"
+    ],
+    "intent": "system_overview",
+    "keywords": [
+      "giáo",
+      "viên",
+      "teacher",
+      "chức",
+      "năng",
+      "tính",
+      "năng"
+    ],
+    "content": "Giáo viên (Teacher) có 5 chức năng chính trong hệ thống: 1) Đặt mượn thiết bị - đặt và quản lý yêu cầu mượn máy chiếu. 2) Thời gian biểu - xem lịch sử dụng thiết bị và lịch bảo trì. 3) Đánh giá thiết bị - đánh giá chất lượng thiết bị sau khi sử dụng. 4) Yêu cầu hỗ trợ kỹ thuật - báo cáo sự cố và yêu cầu hỗ trợ. 5) Trợ lý AI - hỏi đáp tự động về quy định và hướng dẫn sử dụng hệ thống."
+  },
+  {
+    "docId": "booking-overview",
+    "title": "Tổng quan đặt mượn thiết bị",
+    "role": [
+      "teacher"
+    ],
+    "intent": "booking_device",
+    "keywords": [
+      "làm",
+      "thế nào",
+      "đặt",
+      "mượn",
+      "thiết",
+      "bị",
+      "booking",
+      "máy",
+      "chiếu",
+      "trạng",
+      "thái"
+    ],
+    "content": "ĐẶT MƯỢN THIẾT BỊ (booking/mượn máy chiếu): Truy cập menu 'THIẾT BỊ' > 'Đặt mượn'. Trang hiển thị danh sách máy chiếu với: tên thiết bị, model, số serial, phòng/tòa nhà, trạng thái. CÁC TRẠNG THÁI: available/Sẵn sàng (màu xanh) - CÓ THỂ đặt mượn, in_use/Đang dùng - KHÔNG THỂ đặt, maintenance/Bảo trì (màu cam) - KHÔNG THỂ đặt, broken/Hỏng (màu đỏ) - KHÔNG THỂ đặt. LƯU Ý: Chỉ đặt mượn thiết bị có trạng thái 'Sẵn sàng'."
+  },
+  {
+    "docId": "booking-steps",
+    "title": "5 bước đặt mượn thiết bị",
+    "role": [
+      "teacher"
+    ],
+    "intent": "booking_steps",
+    "keywords": [
+      "cách",
+      "đặt",
+      "bước",
+      "hướng",
+      "dẫn",
+      "booking"
+    ],
+    "content": "CÁCH ĐẶT MƯỢN/BOOKING THIẾT BỊ: Bước 1 - Kiểm tra cột 'Trạng thái', chỉ chọn thiết bị 'Sẵn sàng' (xanh lá). Bước 2 - Nhấn nút 'Đặt mượn' trên thiết bị muốn dùng. Bước 3 - Điền form: Ngày dùng, Giờ bắt đầu (6:00-22:00), Giờ kết thúc (sau giờ bắt đầu), Mục đích. Bước 4 - Nhấn 'Gửi yêu cầu'. Bước 5 - Nhấn 'Xem lịch sử đặt mượn' để theo dõi trạng thái."
+  },
+  {
+    "docId": "booking-time-rules",
+    "title": "Quy định thời gian đặt mượn",
+    "role": [
+      "teacher"
+    ],
+    "intent": "booking_rules",
+    "keywords": [
+      "giờ",
+      "thời",
+      "gian",
+      "quy",
+      "định",
+      "khung",
+      "giờ",
+      "hợp",
+      "lệ",
+      "sau 22 giờ",
+      "trước 6 giờ",
+      "không hợp lệ",
+      "khung giờ"
+    ],
+    "content": "QUY ĐỊNH GIỜ ĐẶT MƯỢN: Khung giờ hợp lệ từ 06:00 đến 22:00 hàng ngày. Thời gian kết thúc PHẢI SAU thời gian bắt đầu. Nếu trùng lịch với người khác → LỖI 409 Conflict → chọn giờ khác hoặc thiết bị khác. KHUYẾN NGHỊ: Đặt trước ít nhất 1 ngày, kiểm tra Thời gian biểu trước khi đặt."
+  },
+  {
+    "docId": "booking-status",
+    "title": "Các trạng thái yêu cầu đặt mượn",
+    "role": [
+      "teacher"
+    ],
+    "intent": "booking_status",
+    "keywords": [
+      "trạng",
+      "thái",
+      "yêu",
+      "cầu",
+      "pending",
+      "approved",
+      "status"
+    ],
+    "content": "TRẠNG THÁI YÊU CẦU (request status): pending/Chờ duyệt (vàng) - mới tạo, chờ Admin xử lý. approved/Đã duyệt (xanh) - được chấp nhận, có thể dùng thiết bị. rejected/Từ chối (đỏ) - bị từ chối, kiểm tra lý do. completed/Hoàn thành (xanh lá) - đã dùng xong. cancelled/Đã hủy (xám) - bạn đã hủy yêu cầu."
+  },
+  {
+    "docId": "booking-cancel",
+    "title": "Cách hủy yêu cầu đặt mượn",
+    "role": [
+      "teacher"
+    ],
+    "intent": "cancel_booking",
+    "keywords": [
+      "hủy",
+      "cancel",
+      "yêu",
+      "cầu",
+      "đặt",
+      "mượn"
+    ],
+    "content": "HỦY YÊU CẦU ĐẶT MƯỢN/CANCEL BOOKING: Nhấn 'Xem lịch sử đặt mượn' để mở modal. CHỈ HỦY ĐƯỢC yêu cầu đang 'Chờ duyệt' (pending, màu vàng). Nhấn nút 'Hủy' và xác nhận. Yêu cầu đã duyệt/từ chối/hoàn thành KHÔNG THỂ hủy. NẾU BỊ TỪ CHỐI: Kiểm tra lý do (trùng lịch/thiết bị bảo trì/vi phạm quy định), chọn thời gian khác và tạo lại."
+  },
+  {
+    "docId": "booking-history",
+    "title": "Xem lịch sử đặt mượn",
+    "role": [
+      "teacher"
+    ],
+    "intent": "booking_history",
+    "keywords": [
+      "lịch",
+      "sử",
+      "history",
+      "xem",
+      "yêu",
+      "cầu"
+    ],
+    "content": "LỊCH SỬ ĐẶT MƯỢN: Trong modal 'Lịch sử đặt mượn của bạn', xem: 1) Chi tiết yêu cầu - thiết bị, thời gian, mục đích, trạng thái. 2) Làm mới danh sách - nhấn 'Làm mới' cập nhật trạng thái mới nhất. KHI THAY ĐỔI KẾ HOẠCH: Hủy yêu cầu pending và tạo mới, hoặc liên hệ Admin/Kỹ thuật viên điều chỉnh. KHUYẾN NGHỊ: Đặt mượn trước ít nhất 1 ngày."
+  },
+  {
+    "docId": "schedule-week",
+    "title": "Lịch tuần - Xem thời gian biểu theo tuần",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "view_schedule",
+    "keywords": [
+      "lịch",
+      "tuần",
+      "week",
+      "calendar",
+      "thời",
+      "gian",
+      "biểu"
+    ],
+    "content": "LỊCH TUẦN/CALENDAR TUẦN (schedule): Menu 'THIẾT BỊ' > 'Thời gian biểu' > Tab 'LỊCH TUẦN'. Hiển thị bảng theo giờ (6:00-22:00) và ngày trong tuần. Mỗi ô màu = 1 booking đã duyệt/hoàn thành. HOVER CHUỘT lên ô xem: tên thiết bị, người đặt, mục đích, thời gian. CHUYỂN TUẦN: Nút 'Tuần trước'/'Tuần sau'. LỌC THIẾT BỊ: Chọn thiết bị cụ thể hoặc 'Tất cả thiết bị'."
+  },
+  {
+    "docId": "schedule-month",
+    "title": "Lịch tháng - Xem thời gian biểu theo tháng",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "view_schedule",
+    "keywords": [
+      "lịch",
+      "tháng",
+      "month",
+      "calendar",
+      "thời",
+      "gian"
+    ],
+    "content": "LỊCH THÁNG/MONTHLY CALENDAR (schedule): Menu 'THIẾT BỊ' > 'Thời gian biểu' > Tab 'LỊCH THÁNG'. Hiển thị calendar theo tháng, ngày có booking được đánh dấu. NHẤN VÀO NGÀY để xem danh sách TẤT CẢ booking trong ngày với thông tin đầy đủ. CHUYỂN THÁNG: Dùng nút điều hướng. CÔNG DỤNG: Xem tổng quan lịch đặt mượn cả tháng."
+  },
+  {
+    "docId": "schedule-maintenance",
+    "title": "Lịch bảo trì thiết bị",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "maintenance_schedule",
+    "keywords": [
+      "lịch",
+      "bảo",
+      "trì",
+      "maintenance",
+      "thiết",
+      "bị"
+    ],
+    "content": "LỊCH BẢO TRÌ/MAINTENANCE SCHEDULE: Menu 'THIẾT BỊ' > 'Thời gian biểu' > Tab 'LỊCH BẢO TRÌ'. Hiển thị TẤT CẢ lịch bảo trì thiết bị sắp tới: tên thiết bị, thời gian bảo trì dự kiến, loại công việc, người phụ trách. QUAN TRỌNG: Thiết bị đang trong lịch bảo trì KHÔNG THỂ đặt mượn. SỬ DỤNG: Kiểm tra thiết bị có bị bảo trì trong thời gian bạn cần dùng không."
+  },
+  {
+    "docId": "review-overview",
+    "title": "Tổng quan đánh giá thiết bị",
+    "role": [
+      "teacher"
+    ],
+    "intent": "device_review",
+    "keywords": [
+      "đánh",
+      "giá",
+      "review",
+      "feedback",
+      "thiết",
+      "bị"
+    ],
+    "content": "ĐÁNH GIÁ THIẾT BỊ/REVIEW (rating/feedback thiết bị): Menu 'THIẾT BỊ' > 'Đánh giá thiết bị'. Hiển thị TẤT CẢ booking đã hoàn thành của bạn. Cột 'Đánh giá' hiển thị: 'Chưa đánh giá' hoặc 'Đã đánh giá'. KHI NÀO: Sau khi booking chuyển sang 'completed', đánh giá NGAY để phản ánh đúng tình trạng. LỢI ÍCH: Giúp Admin/Kỹ thuật viên phát hiện sớm vấn đề, bảo trì kịp thời."
+  },
+  {
+    "docId": "review-rating-levels",
+    "title": "3 mức đánh giá thiết bị",
+    "role": [
+      "teacher"
+    ],
+    "intent": "rating_guide",
+    "keywords": [
+      "mức",
+      "đánh",
+      "giá",
+      "tốt",
+      "dùng",
+      "được",
+      "hỏng"
+    ],
+    "content": "CÁC MỨC ĐÁNH GIÁ/RATING LEVELS: Bước 1 - Nhấn 'Đánh giá' trên booking chưa đánh giá. Bước 2 - Chọn 1 trong 3 mức: 'Tốt'/GOOD - hoạt động hoàn hảo, không vấn đề. 'Dùng được'/FAIR - có vấn đề nhỏ nhưng vẫn dùng được. 'Hỏng'/BAD - không hoạt động hoặc sự cố nghiêm trọng. Bước 3 - Nhập nhận xét chi tiết (khuyến khích): mô tả vấn đề, thời điểm xảy ra. Bước 4 - Nhấn 'Gửi đánh giá'."
+  },
+  {
+    "docId": "review-details",
+    "title": "Nhận xét chi tiết khi đánh giá",
+    "role": [
+      "teacher"
+    ],
+    "intent": "review_comments",
+    "keywords": [
+      "nhận",
+      "xét",
+      "comment",
+      "chi",
+      "tiết",
+      "mô",
+      "tả"
+    ],
+    "content": "NHẬN XÉT CHI TIẾT KHI ĐÁNH GIÁ: Nên ghi rõ: 1) Triệu chứng cụ thể (hình ảnh mờ/blurry, không kết nối/no connection, quá nóng/overheating, tiếng ồn lạ/strange noise). 2) Thời điểm xảy ra sự cố. 3) Mức độ ảnh hưởng công việc. XEM LỊCH SỬ: Nhấn 'Xem' trên booking đã đánh giá để xem lại nội dung trước đó."
+  },
+  {
+    "docId": "support-when-to-create",
+    "title": "Khi nào cần tạo yêu cầu hỗ trợ",
+    "role": [
+      "teacher"
+    ],
+    "intent": "support_request",
+    "keywords": [
+      "khi",
+      "nào",
+      "hỗ",
+      "trợ",
+      "support",
+      "sự",
+      "cố"
+    ],
+    "content": "KHI NÀO TẠO YÊU CẦU HỖ TRỢ/SUPPORT REQUEST: 1) SỰ CỐ THIẾT BỊ - không bật được, hình ảnh lỗi/error, mất kết nối/no connection, quá nhiệt/overheating, tiếng động bất thường/strange noise. 2) CẦN HỖ TRỢ KỸ THUẬT - hướng dẫn tính năng, kết nối thiết bị ngoại vi. 3) THIẾT BỊ CẦN BẢO TRÌ - vệ sinh, kiểm tra định kỳ. Menu: 'BÁO CÁO & HỖ TRỢ' > 'Yêu cầu hỗ trợ kỹ thuật'."
+  },
+  {
+    "docId": "support-create-steps",
+    "title": "Cách tạo yêu cầu hỗ trợ kỹ thuật",
+    "role": [
+      "teacher"
+    ],
+    "intent": "create_support",
+    "keywords": [
+      "tạo",
+      "create",
+      "hỗ",
+      "trợ",
+      "support",
+      "ticket"
+    ],
+    "content": "TẠO YÊU CẦU HỖ TRỢ/CREATE SUPPORT: Bước 1 - Nhấn 'Tạo yêu cầu mới' (xanh). Bước 2 - Điền form: TIÊU ĐỀ - tóm tắt vấn đề (VD: 'Máy chiếu P-101 không hiển thị'). LOẠI - 'Sửa chữa'/repair (sự cố) hoặc 'Bảo trì'/maintenance (định kỳ). ƯU TIÊN - low/Thấp (không gấp), medium/Trung bình (1-2 ngày), high/Cao (nhiều người ảnh hưởng), urgent/Khẩn cấp (xử lý ngay). THIẾT BỊ - chọn máy chiếu (không bắt buộc). MÔ TẢ - ghi rõ: triệu chứng, thời điểm, bước đã thử, ảnh hưởng. Bước 3 - Nhấn 'Gửi'."
+  },
+  {
+    "docId": "support-status-tracking",
+    "title": "Theo dõi trạng thái yêu cầu hỗ trợ",
+    "role": [
+      "teacher"
+    ],
+    "intent": "track_support",
+    "keywords": [
+      "theo",
+      "dõi",
+      "track",
+      "trạng",
+      "thái",
+      "support"
+    ],
+    "content": "TRẠNG THÁI YÊU CẦU HỖ TRỢ/SUPPORT STATUS: 4 TAB theo dõi - 'TẤT CẢ' (all), 'CHỜ XỬ LÝ'/pending (vàng, chưa có người nhận), 'ĐANG XỬ LÝ'/in_progress (xanh, kỹ thuật viên đang làm), 'ĐÃ HOÀN THÀNH'/resolved-closed (xanh lá-xám, xong việc). Xem chi tiết - biểu tượng con mắt. Hủy - CHỈ hủy được yêu cầu 'Chờ xử lý', biểu tượng thùng rác."
+  },
+  {
+    "docId": "support-response-time",
+    "title": "Thời gian phản hồi hỗ trợ",
+    "role": [
+      "teacher"
+    ],
+    "intent": "support_timing",
+    "keywords": [
+      "thời",
+      "gian",
+      "phản",
+      "hồi",
+      "response",
+      "time"
+    ],
+    "content": "THỜI GIAN XỬ LÝ YÊU CẦU HỖ TRỢ/RESPONSE TIME: GIỜ HÀNH CHÍNH (7:30-17:30, Thứ 2-Thứ 6) - tiếp nhận trong 30 phút đến 2 giờ. NGOÀI GIỜ/CUỐI TUẦN - ghi nhận và xử lý ngày làm việc tiếp theo. ƯU TIÊN - yêu cầu 'Khẩn cấp'/urgent được xử lý TRƯỚC. THEO DÕI - kiểm tra phản hồi kỹ thuật viên, thời gian xử lý, người phụ trách trong chi tiết yêu cầu."
+  },
+  {
+    "docId": "ai-assistant-overview",
+    "title": "Tổng quan Trợ lý AI",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "ai_assistant",
+    "keywords": [
+      "trợ",
+      "lý",
+      "ai",
+      "chatbot",
+      "assistant"
+    ],
+    "content": "TRỢ LÝ AI/AI ASSISTANT (chatbot/AI helper): Menu 'BÁO CÁO & HỖ TRỢ' > 'Trợ lý AI'. Chatbot thông minh trả lời câu hỏi về quy định, hướng dẫn hệ thống, chính sách mượn thiết bị. CÁCH DÙNG: Nhập câu hỏi → Enter/Gửi → Chờ vài giây → AI trả lời → Đánh giá Like/Dislike. HOẠT ĐỘNG 24/7. LƯU Ý: AI CHỈ cung cấp thông tin, KHÔNG THỂ thực hiện hành động (đặt mượn, hủy yêu cầu)."
+  },
+  {
+    "docId": "ai-common-questions",
+    "title": "Câu hỏi phổ biến cho AI",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "ai_faq",
+    "keywords": [
+      "câu",
+      "hỏi",
+      "question",
+      "phổ",
+      "biến",
+      "faq"
+    ],
+    "content": "CÂU HỎI PHỔ BIẾN HỎI AI/COMMON QUESTIONS: 'Làm thế nào để đặt mượn thiết bị?'/'Cách đặt mượn?'/'How to book?' - hướng dẫn quy trình booking. 'Giờ hỗ trợ kỹ thuật là mấy giờ?'/'Support time?' - khung giờ 7:30-17:30. 'Tôi có thể đặt mượn thiết bị đang bảo trì không?'/'Can I book maintenance device?' - KHÔNG THỂ. 'Làm sao để hủy yêu cầu?'/'How to cancel?' - hướng dẫn hủy. 'Khung giờ đặt mượn hợp lệ?'/'Valid booking hours?' - 6:00-22:00."
+  },
+  {
+    "docId": "ai-feedback-importance",
+    "title": "Đánh giá câu trả lời AI - Quan trọng",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "ai_feedback",
+    "keywords": [
+      "đánh",
+      "giá",
+      "feedback",
+      "like",
+      "dislike",
+      "rating"
+    ],
+    "content": "ĐÁNH GIÁ CÂU TRẢ LỜI AI/AI FEEDBACK (rating/like/dislike): SAU MỖI CÂU TRẢ LỜI có 2 nút. NÚT 'HỮU ÍCH'/LIKE (👍) - Nhấn nếu câu trả lời ĐÚNG, hữu ích, giải quyết được vấn đề. AI sẽ HỌC và ưu tiên câu trả lời tương tự. NÚT 'CHƯA CHÍNH XÁC'/DISLIKE (👎) - Nhấn nếu câu trả lời SAI, không liên quan, chưa đủ thông tin. Giúp Admin cải thiện tài liệu. CHỈ ĐÁNH GIÁ 1 LẦN/câu trả lời. Đánh giá ẩn danh nhưng LƯU HỆ THỐNG để cải thiện AI."
+  },
+  {
+    "docId": "error-400-bad-request",
+    "title": "Lỗi 400 Bad Request",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "error_handling",
+    "keywords": [
+      "lỗi",
+      "400",
+      "error",
+      "bad",
+      "request"
+    ],
+    "content": "LỖI 400/BAD REQUEST: NGUYÊN NHÂN - thiếu thông tin bắt buộc hoặc dữ liệu không hợp lệ. VÍ DỤ: thời gian kết thúc TRƯỚC thời gian bắt đầu (endTime < startTime), thời gian NGOÀI khung 6:00-22:00. CÁCH XỬ LÝ: Kiểm tra LẠI tất cả trường thông tin, đảm bảo startTime < endTime và TRONG khung 6:00-22:00."
+  },
+  {
+    "docId": "error-401-403-404",
+    "title": "Lỗi 401, 403, 404",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "error_handling",
+    "keywords": [
+      "lỗi",
+      "401",
+      "403",
+      "404",
+      "error",
+      "unauthorized",
+      "forbidden"
+    ],
+    "content": "LỖI 401/UNAUTHORIZED: Phiên đăng nhập HẾT HẠN. XỬ LÝ: Đăng xuất và đăng nhập lại. LỖI 403/FORBIDDEN: KHÔNG CÓ QUYỀN truy cập (VD: Teacher vào trang Admin). XỬ LÝ: Chỉ dùng chức năng được phép trong menu. LỖI 404/NOT FOUND: Thiết bị/yêu cầu KHÔNG TỒN TẠI (đã bị xóa). XỬ LÝ: Làm mới trang và thử lại."
+  },
+  {
+    "docId": "error-409-conflict",
+    "title": "Lỗi 409 Conflict - Trùng lịch",
+    "role": [
+      "teacher"
+    ],
+    "intent": "error_handling",
+    "keywords": [
+      "lỗi",
+      "409",
+      "conflict",
+      "trùng",
+      "lịch"
+    ],
+    "content": "LỖI 409/CONFLICT (quan trọng): NGUYÊN NHÂN - TRÙNG LỊCH đặt mượn, đã có người đặt thiết bị trong khung giờ đó. CÁCH XỬ LÝ: 1) Mở 'Thời gian biểu' xem lịch đã đặt. 2) Chọn KHUNG GIỜ KHÁC hoặc THIẾT BỊ KHÁC. MẸO TRÁNH: Kiểm tra Thời gian biểu TRƯỚC KHI đặt mượn, đặt mượn SỚM để có nhiều lựa chọn."
+  },
+  {
+    "docId": "error-connection",
+    "title": "Lỗi kết nối mạng",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "error_handling",
+    "keywords": [
+      "lỗi",
+      "kết",
+      "nối",
+      "connection",
+      "error",
+      "network"
+    ],
+    "content": "LỖI KẾT NỐI/CONNECTION ERROR: NGUYÊN NHÂN - mất kết nối internet hoặc server đang bảo trì. CÁCH XỬ LÝ: 1) Kiểm tra kết nối mạng/wifi. 2) Thử lại sau vài phút. 3) Liên hệ Admin nếu lỗi KÉO DÀI. MẸO: Lưu thông tin quan trọng TRƯỚC KHI gửi form để tránh mất dữ liệu nếu phiên hết hạn."
+  },
+  {
+    "docId": "best-practices-booking",
+    "title": "Mẹo đặt mượn hiệu quả",
+    "role": [
+      "teacher"
+    ],
+    "intent": "best_practices",
+    "keywords": [
+      "mẹo",
+      "tips",
+      "khuyến",
+      "nghị",
+      "hiệu",
+      "quả"
+    ],
+    "content": "MẸO ĐẶT MƯỢN HIỆU QUẢ/BOOKING TIPS: TRƯỚC KHI ĐẶT - Kiểm tra Thời gian biểu xem lịch trống và lịch bảo trì. Xác định thời gian + buffer 15-30 phút cài đặt/dọn dẹp. Đặt TRƯỚC ÍT NHẤT 1 NGÀY để kịp duyệt. GIỜ CAO ĐIỂM (8:00-11:00, 13:00-16:00) - đặt SỚM HƠN vì thiết bị thường FULL. KHI DÙNG - Kiểm tra thiết bị KỸ trước, báo ngay nếu có vấn đề. Trả đúng giờ."
+  },
+  {
+    "docId": "best-practices-maintenance",
+    "title": "Mẹo sử dụng và bảo trì",
+    "role": [
+      "teacher"
+    ],
+    "intent": "best_practices",
+    "keywords": [
+      "mẹo",
+      "tips",
+      "sử",
+      "dụng",
+      "bảo",
+      "trì"
+    ],
+    "content": "MẸO SỬ DỤNG VÀ BẢO TRÌ/USAGE TIPS: SAU KHI DÙNG - Đánh giá thiết bị NGAY để phản ánh đúng tình trạng. Nếu phát hiện HỎNG HÓC, tạo yêu cầu hỗ trợ NGAY với mô tả chi tiết. QUẢN LÝ YÊU CẦU - Kiểm tra email/thông báo thường xuyên. Nếu kế hoạch THAY ĐỔI, hủy yêu cầu sớm nhường tài nguyên. SỬ DỤNG AI - Hỏi AI TRƯỚC KHI tạo yêu cầu hỗ trợ cho vấn đề đơn giản."
+  },
+  {
+    "docId": "technician-overview",
+    "title": "Tổng quan chức năng Kỹ thuật viên",
+    "role": [
+      "technician"
+    ],
+    "intent": "system_overview",
+    "keywords": [
+      "kỹ",
+      "thuật",
+      "viên",
+      "technician",
+      "chức",
+      "năng"
+    ],
+    "content": "Kỹ thuật viên (Technician) có 4 chức năng chính: 1) Nhiệm vụ được giao - xem và xử lý yêu cầu hỗ trợ từ giáo viên. 2) Quản lý thiết bị - cập nhật trạng thái, thông tin thiết bị. 3) Lịch công việc - xem lịch bảo trì, sửa chữa theo kế hoạch. 4) Lịch sử công việc - theo dõi các công việc đã hoàn thành."
+  },
+  {
+    "docId": "admin-overview",
+    "title": "Tổng quan chức năng Admin",
+    "role": [
+      "admin"
+    ],
+    "intent": "system_overview",
+    "keywords": [
+      "admin",
+      "quản",
+      "trị",
+      "chức",
+      "năng"
+    ],
+    "content": "Admin có quyền quản lý toàn bộ hệ thống: 1) Quản lý người dùng - tạo, sửa, xóa tài khoản. 2) Quản lý thiết bị - thêm, sửa, xóa thiết bị. 3) Duyệt yêu cầu đặt mượn - phê duyệt/từ chối. 4) Quản lý yêu cầu hỗ trợ - gán kỹ thuật viên xử lý. 5) Thống kê báo cáo - xem báo cáo sử dụng, sự cố. 6) Huấn luyện AI - cập nhật knowledge base cho chatbot."
+  },
+  {
+    "docId": "ai-chatbot-training",
+    "title": "Huấn luyện Chatbot",
+    "role": [
+      "admin",
+      "technician"
+    ],
+    "intent": "ai_training",
+    "keywords": [
+      "huấn",
+      "luyện",
+      "chatbot",
+      "ai",
+      "dữ",
+      "liệu",
+      "training"
+    ],
+    "content": "Admin và kỹ thuật viên có thể huấn luyện chatbot bằng cách thêm dữ liệu hội thoại mới, cải thiện khả năng hiểu ngôn ngữ tự nhiên và phản hồi chính xác hơn theo ngữ cảnh của hệ thống. Truy cập Admin > TRÍ TUỆ NHÂN TẠO > Huấn luyện Chatbot > Nhấn 'Huấn luyện từ knowledge.vi.json' > Lưu Index."
+  },
+  {
+    "docId": "error-device",
+    "title": "Lỗi thiết bị",
+    "role": [
+      "teacher",
+      "admin",
+      "technician"
+    ],
+    "intent": "error_handling",
+    "keywords": [
+      "lỗi",
+      "thiết bị",
+      "hỏng",
+      "khắc phục",
+      "sự cố",
+      "support",
+      "mờ hình",
+      "không kết nối",
+      "quá nóng",
+      "tiếng ồn",
+      "tiếng lạ",
+      "hình ảnh lỗi",
+      "Không lên hình",
+      "nháy hình"
+    ],
+    "content": "Hiện tại tôi chưa thể phân tích lỗi thiết bị cụ thể. Bạn có thể tắt máy chiếu, kiểm tra kết nối dây cáp, để máy nguội nếu quá nóng, và thử bật lại. Nếu vẫn gặp sự cố, vui lòng tạo yêu cầu hỗ trợ kỹ thuật để được giúp đỡ chi tiết hơn."
+  }
+]

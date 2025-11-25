@@ -1,0 +1,19 @@
+.layout {
+  min-height: 100vh;
+}
+
+.content {
+  margin: 24px;
+}
+
+.contentWrapper {
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.footer {
+  text-align: center;
+  color: #667085;
+}

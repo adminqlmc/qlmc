@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  padding: 0 24px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.toggleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #1f2937;
+  border-radius: 6px;
+}
+
+.toggleBtn:hover {
+  background: #f3f4f6;
+}

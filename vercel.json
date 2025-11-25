@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/daily-ai-learning",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

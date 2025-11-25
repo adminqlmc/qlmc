@@ -1,0 +1,255 @@
+.supportPage {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageDescription {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.createButton {
+  border-radius: 6px;
+  height: 40px;
+  font-weight: 500;
+}
+
+.filterTabs {
+  background: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.tableCard {
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.statusTag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pendingTag {
+  background: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.inProgressTag {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.resolvedTag {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.closedTag {
+  background: #f5f5f5;
+  color: #8c8c8c;
+  border: 1px solid #d9d9d9;
+}
+
+.priorityTag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.lowPriority {
+  background: #f0f0f0;
+  color: #595959;
+  border: 1px solid #d9d9d9;
+}
+
+.mediumPriority {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.highPriority {
+  background: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.urgentPriority {
+  background: #fff1f0;
+  color: #f5222d;
+  border: 1px solid #ffa39e;
+}
+
+.requestTitle {
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.requestCategory {
+  font-size: 12px;
+  color: #999;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.modalContent {
+  padding: 8px 0;
+}
+
+.formSection {
+  margin-bottom: 24px;
+}
+
+.formSection:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+.detailModal .modalContent {
+  padding: 0;
+}
+
+.detailSection {
+  margin-bottom: 20px;
+}
+
+.detailSection:last-child {
+  margin-bottom: 0;
+}
+
+.detailRow {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.detailRow:last-child {
+  margin-bottom: 0;
+}
+
+.detailLabel {
+  font-weight: 500;
+  color: #666;
+  min-width: 140px;
+}
+
+.detailValue {
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.responseSection {
+  background: #f6ffed;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #b7eb8f;
+  margin-top: 16px;
+}
+
+.responseTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #389e0d;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.responseText {
+  color: #1a1a1a;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.noResponse {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  color: #d9d9d9;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.emptyDescription {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.deleteConfirm {
+  margin-top: 8px;
+  padding: 12px;
+  background: #fff7e6;
+  border-radius: 6px;
+  border: 1px solid #ffd591;
+}
+
+.deleteConfirmText {
+  font-size: 14px;
+  color: #d46b08;
+}

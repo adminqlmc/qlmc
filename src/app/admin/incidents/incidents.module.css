@@ -1,0 +1,353 @@
+.incidentsPage {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageDescription {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.filtersCard {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.filtersRow {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filterItem {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.statIcon {
+  font-size: 32px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.pendingIcon {
+  background: #fff7e6;
+  color: #fa8c16;
+}
+
+.inProgressIcon {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+.resolvedIcon {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.urgentIcon {
+  background: #fff1f0;
+  color: #f5222d;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.filterTabs {
+  background: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.tableCard {
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.statusTag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pendingTag {
+  background: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.inProgressTag {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.resolvedTag {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.closedTag {
+  background: #f5f5f5;
+  color: #8c8c8c;
+  border: 1px solid #d9d9d9;
+}
+
+.priorityTag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.lowPriority {
+  background: #f0f0f0;
+  color: #595959;
+  border: 1px solid #d9d9d9;
+}
+
+.mediumPriority {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.highPriority {
+  background: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.urgentPriority {
+  background: #fff1f0;
+  color: #f5222d;
+  border: 1px solid #ffa39e;
+}
+
+.requestTitle {
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.requestCategory {
+  font-size: 12px;
+  color: #999;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userAvatar {
+  flex-shrink: 0;
+}
+
+.userName {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #666;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.assignButton {
+  border-radius: 4px;
+}
+
+.modalContent {
+  padding: 8px 0;
+}
+
+.detailSection {
+  margin-bottom: 20px;
+}
+
+.detailSection:last-child {
+  margin-bottom: 0;
+}
+
+.detailRow {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.detailRow:last-child {
+  margin-bottom: 0;
+}
+
+.detailLabel {
+  font-weight: 500;
+  color: #666;
+  min-width: 140px;
+}
+
+.detailValue {
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.assignSection {
+  background: #f6ffed;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #b7eb8f;
+  margin-top: 16px;
+}
+
+.assignTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #389e0d;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.technicianSelect {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.assignInfo {
+  background: #e6f7ff;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #91d5ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.assignInfoIcon {
+  color: #1890ff;
+  font-size: 16px;
+}
+
+.assignInfoText {
+  font-size: 13px;
+  color: #0050b3;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  color: #d9d9d9;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.emptyDescription {
+  font-size: 14px;
+  color: #999;
+}
+
+.technicianOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.technicianAvatar {
+  flex-shrink: 0;
+}
+
+.technicianInfo {
+  flex: 1;
+}
+
+.technicianName {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.technicianId {
+  font-size: 12px;
+  color: #999;
+}

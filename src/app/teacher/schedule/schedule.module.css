@@ -1,0 +1,246 @@
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #1e293b;
+}
+
+.description {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.scheduleContainer {
+  margin-top: 16px;
+}
+
+.weekInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.legend {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.legendTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.legendItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.legendColor {
+  width: 24px;
+  height: 16px;
+  border-radius: 4px;
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.scheduleTable {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.scheduleTable :global(.ant-table) {
+  font-size: 13px;
+}
+
+.scheduleTable :global(.ant-table-thead > tr > th) {
+  background: #f1f5f9;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+.scheduleTable :global(.ant-table-tbody > tr > td) {
+  padding: 4px;
+  vertical-align: top;
+  border-right: 1px solid #e2e8f0;
+}
+
+.dayHeader {
+  text-align: center;
+}
+
+.dayHeader > div:first-child {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.dateText {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.timeCell {
+  text-align: center;
+  font-weight: 600;
+  color: #475569;
+  padding: 8px 4px;
+}
+
+.emptyCell {
+  height: 60px;
+  background: #fafafa;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.emptyCell:hover {
+  background: #f0f0f0;
+}
+
+.bookingCell {
+  min-height: 60px;
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.bookingCell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.bookingCell.today {
+  box-shadow: 0 0 0 2px #fbbf24 inset;
+}
+
+.bookingCell.today:hover {
+  box-shadow: 0 0 0 2px #fbbf24 inset, 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.bookingCell.past {
+  opacity: 0.7;
+}
+
+.bookingCell.past:hover {
+  box-shadow: 0 4px 12px rgba(156, 163, 175, 0.3);
+}
+
+.maintenanceCell {
+  min-height: 60px;
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.maintenanceCell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.maintenanceCell.today {
+  box-shadow: 0 0 0 2px #ef4444 inset;
+}
+
+.maintenanceCell.today:hover {
+  box-shadow: 0 0 0 2px #ef4444 inset, 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.maintenanceTitle {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.bookingInfo {
+  color: white;
+  font-size: 12px;
+}
+
+.projectorName,
+.userName {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.location,
+.userID {
+  font-size: 11px;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.time {
+  font-size: 11px;
+  opacity: 0.9;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bookingInfo :global(.ant-tag) {
+  font-size: 10px;
+  padding: 0 6px;
+  margin: 0;
+  border: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .scheduleTable :global(.ant-table-thead > tr > th),
+  .scheduleTable :global(.ant-table-tbody > tr > td) {
+    min-width: 120px;
+  }
+}

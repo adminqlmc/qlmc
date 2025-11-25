@@ -1,0 +1,163 @@
+// Prisma schema for QLMC (projector management)
+// Provider: MongoDB Atlas
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  teacher
+  technician
+}
+
+enum ProjectorStatus {
+  available
+  maintenance
+  broken
+}
+
+enum BookingStatus {
+  pending
+  approved
+  rejected
+  completed
+}
+
+
+
+enum SupportRequestStatus {
+  pending
+  in_progress
+  resolved
+  closed
+}
+
+enum SupportRequestPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userID      String   @unique
+  fullName    String
+  email       String?
+  googleEmail String?
+  googleId    String?
+  password    String
+  role        Role     @default(teacher)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  avatar      String?
+
+  bookings         Booking[]
+  supportRequests  SupportRequest[]
+  chatbotFeedback  ChatbotFeedback[]
+}
+
+model Projector {
+  id                   String          @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  model                String
+  serialNumber         String          @unique
+  room                 String
+  building             String
+  status               ProjectorStatus @default(available)
+  purchaseDate         DateTime
+  warrantyExpiry       DateTime
+  timeUsed             Int             @default(0)
+  lastMaintenanceDate  DateTime?
+  createdAt            DateTime        @default(now())
+
+  bookings    Booking[]
+  supportRequests SupportRequest[]
+}
+
+model Booking {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  projector   Projector      @relation(fields: [projectorId], references: [id], onDelete: Cascade)
+  projectorId String         @db.ObjectId
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String         @db.ObjectId
+  startTime   DateTime
+  endTime     DateTime
+  purpose     String
+  status      BookingStatus  @default(pending)
+  createdAt   DateTime       @default(now())
+
+  review      Review?
+}
+
+model Review {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  booking     Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId   String    @unique @db.ObjectId
+  rating      Int       // 1-5 stars
+  comment     String?
+  createdAt   DateTime  @default(now())
+}
+
+model ChatbotFeedback {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String   @db.ObjectId
+  question      String
+  answer        String
+  feedback      String   // "like" hoặc "dislike"
+  sources       String?  // JSON array of source documents
+  createdAt     DateTime @default(now())
+}
+
+model SupportRequest {
+  id          String                   @id @default(auto()) @map("_id") @db.ObjectId
+  user        User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String                   @db.ObjectId
+  projector   Projector?               @relation(fields: [projectorId], references: [id])
+  projectorId String?                  @db.ObjectId
+  title       String
+  description String
+  priority    SupportRequestPriority   @default(medium)
+  status      SupportRequestStatus     @default(pending)
+  category    String?                  // e.g., "technical", "maintenance", "other"
+  attachments String?                  // JSON array of file paths
+  response    String?
+  respondedBy String?                  // UserID of technician
+  respondedAt DateTime?
+  scheduledStartTime DateTime?         // Scheduled maintenance start time
+  scheduledEndTime   DateTime?         // Scheduled maintenance end time
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+}
+
+model AILearningLog {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  totalFeedback     Int      // Tổng số feedback trong ngày
+  likeCount         Int      // Số lượt like
+  dislikeCount      Int      // Số lượt dislike
+  documentsUpdated  Int      // Số documents đã cập nhật
+  topQuestions      String   // JSON array of top questions
+  improvements      String   // JSON array of improvements
+  learningDate      DateTime @default(now()) // Ngày học
+  createdAt         DateTime @default(now())
+}
+
+// FAISS Index Storage - để chatbot load nhanh từ MongoDB
+model FAISSIndex {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  version     String   @unique // Version tag (e.g., "v1", "2024-11-21")
+  indexData   String   // Base64 encoded FAISS index binary
+  metadata    String   // JSON metadata (doc_ids, texts, roles, etc.)
+  indexSize   Int      // Number of documents
+  embDim      Int      // Embedding dimension
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true) // Active version flag
+}

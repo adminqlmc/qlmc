@@ -1,0 +1,273 @@
+/* Welcome Banner */
+.welcomeBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e6f0ff, #f5f7fa);
+  border-radius: 12px;
+}
+
+.welcomeTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.welcomeText {
+  margin: 8px 0 0 0;
+  color: #667085;
+}
+
+.welcomeDesc {
+  margin: 8px 0 0 0;
+  color: #667085;
+}
+
+.monitorButton {
+  border-radius: 8px;
+}
+
+/* Stats Cards */
+.statsRow {
+  margin-bottom: 24px;
+}
+
+.statsCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.statsContent {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.statCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.statContent {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.statIconWrapper {
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statIconBlue {
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6f0ff;
+}
+
+.statIconGreen {
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6fff1;
+}
+
+.statIconYellow {
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff7e6;
+}
+
+.statIcon {
+  font-size: 24px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statNumber {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  color: #667085;
+  margin-top: 4px;
+}
+
+/* Main Content Row */
+.mainRow {
+  margin-bottom: 24px;
+}
+
+.carouselContainer {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+}
+
+.carouselCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.carouselButtonLeft {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+  left: 16px;
+}
+
+.carouselButtonRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+  right: 16px;
+}
+
+.infoCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoText {
+  color: #495057;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.infoCardContent {
+  color: #495057;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Spacer */
+.spacer {
+  height: 24px;
+}
+
+/* Bottom Row */
+.bottomRow {
+  margin-top: 24px;
+}
+
+.chatbotCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbotText {
+  color: #495057;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.textCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.textCardContent {
+  color: #495057;
+  margin-bottom: 16px;
+}
+
+.chatbotCarouselContainer {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+}
+
+.chatbotCarouselCard {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  height: 280px;
+}
+
+.chatbotImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .carouselContainer,
+  .carouselCard,
+  .infoCard,
+  .chatbotCard,
+  .textCard,
+  .chatbotCarouselContainer,
+  .chatbotCarouselCard {
+    height: auto;
+  }
+  
+  .welcomeBanner {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

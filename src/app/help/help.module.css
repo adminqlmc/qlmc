@@ -1,0 +1,226 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Overview Card */
+.overviewCard {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.overview {
+  padding: 8px 0;
+}
+
+.overviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.overviewDescription {
+  font-size: 16px;
+  color: #595959;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.features {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #1677ff;
+}
+
+.features ul {
+  margin: 12px 0 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.features li {
+  padding: 8px 0;
+  font-size: 15px;
+  color: #262626;
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.6;
+}
+
+/* Guides Card */
+.guidesCard {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.collapse {
+  border: none;
+  background: transparent;
+}
+
+.collapse :global(.ant-collapse-item) {
+  margin-bottom: 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px !important;
+  overflow: hidden;
+  background: white;
+  transition: all 0.3s;
+}
+
+.collapse :global(.ant-collapse-item:hover) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #1677ff;
+}
+
+.collapse :global(.ant-collapse-header) {
+  padding: 16px 20px !important;
+  background: #fafafa;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.collapse :global(.ant-collapse-item-active .ant-collapse-header) {
+  background: #f0f5ff;
+  border-bottom-color: #91caff;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panelIcon {
+  font-size: 20px;
+  color: #1677ff;
+  display: flex;
+  align-items: center;
+}
+
+.panelTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+}
+
+/* Steps */
+.collapse :global(.ant-steps-vertical) {
+  padding: 20px;
+}
+
+.collapse :global(.ant-steps-item-title) {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+.stepDescription {
+  color: #595959;
+  line-height: 1.8;
+  margin: 8px 0 0 0;
+  font-size: 14px;
+}
+
+.stepNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Tips Card */
+.tipsCard {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #faad14;
+}
+
+.tipsList {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.tipsList li {
+  padding: 12px 0;
+  font-size: 15px;
+  color: #262626;
+  border-bottom: 1px solid #f0f0f0;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+}
+
+.tipsList li:last-child {
+  border-bottom: none;
+}
+
+/* Contact Alert */
+.contactAlert {
+  border-radius: 8px;
+  border-left: 4px solid #1677ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header {
+    padding: 24px;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .headerIcon {
+    font-size: 36px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .overviewDescription {
+    font-size: 14px;
+  }
+
+  .features {
+    padding: 16px;
+  }
+
+  .features li {
+    font-size: 14px;
+  }
+
+  .panelTitle {
+    font-size: 15px;
+  }
+
+  .stepDescription {
+    font-size: 13px;
+  }
+
+  .tipsList li {
+    font-size: 14px;
+  }
+}

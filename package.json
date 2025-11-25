@@ -1,0 +1,50 @@
+{
+  "name": "qlmc",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n web,ai -c blue,magenta \"next dev\" \"node scripts/start-ai.js\"",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "seed": "tsx prisma/seed.ts",
+    "ai-learning": "node scripts/daily-ai-learning.js",
+    "ai-seed": "python seed-ai-sync.py",
+    "ai-seed-local": "python seed-ai.py",
+    "ai-clear": "python clear-ai.py"
+  },
+  "dependencies": {
+    "@ant-design/nextjs-registry": "^1.1.0",
+    "@prisma/client": "^5.22.0",
+    "antd": "^5.27.5",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.18",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "5.5",
+    "next": "15.5.6",
+    "nodemailer": "^6.9.13",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "recharts": "^3.3.0",
+    "swr": "^2.3.6",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20",
+    "@types/nodemailer": "^7.0.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^8.2.2",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.6",
+    "prisma": "^5.22.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5"
+  }
+}
