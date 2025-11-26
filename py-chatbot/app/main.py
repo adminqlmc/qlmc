@@ -721,6 +721,142 @@ async def download_index_file(file: str = "index"):
 
 
 # ------------------------
+# Batch Training Endpoint (for production use)
+# ------------------------
+class TrainBatchIn(BaseModel):
+    items: List[Dict[str, Any]]  # Array of knowledge items
+
+
+class TrainBatchOut(BaseModel):
+    success: bool
+    docs_processed: int
+    chunks_added: int
+    total_index: int
+    version: str
+    message: str
+
+
+@app.post("/train-batch", response_model=TrainBatchOut)
+async def train_batch(inp: TrainBatchIn):
+    """
+    Train multiple documents in batch. Each item should have:
+    - docId: str
+    - content: str
+    - role: List[str] (optional)
+    - title: str (optional)
+    - intent: str (optional)
+    - keywords: List[str] (optional)
+    """
+    if not inp.items:
+        return TrainBatchOut(
+            success=False,
+            docs_processed=0,
+            chunks_added=0,
+            total_index=len(store_texts),
+            version="",
+            message="No items provided"
+        )
+    
+    def chunk_text(text: str, max_len: int = 300) -> List[str]:
+        """Split text into chunks by sentences"""
+        import re
+        parts = text.replace('\r\n', ' ').split()
+        parts = re.split(r'(?<=[\.!?。！？])\s+', text)
+        parts = [s.strip() for s in parts if s.strip()]
+        
+        chunks = []
+        buf = []
+        buf_len = 0
+        
+        for s in parts:
+            if buf_len + len(s) + 1 > max_len and buf_len > 0:
+                chunks.append(' '.join(buf))
+                buf = []
+                buf_len = 0
+            buf.append(s)
+            buf_len += len(s) + 1
+        
+        if buf_len > 0:
+            chunks.append(' '.join(buf))
+        
+        return chunks if chunks else [text]
+    
+    total_chunks = 0
+    docs_processed = 0
+    
+    print(f"[train-batch] Starting batch training for {len(inp.items)} documents...")
+    
+    try:
+        for i, item in enumerate(inp.items, 1):
+            doc_id = item.get("docId")
+            content = item.get("content")
+            
+            if not doc_id or not content:
+                print(f"[train-batch] Skipping item {i}: missing docId or content")
+                continue
+            
+            # Chunk the content
+            chunks = chunk_text(content, 400)
+            
+            # Encode chunks
+            embs = embedder.encode(chunks)
+            if embs.dtype != np.float32:
+                embs = embs.astype(np.float32)
+            
+            # Get metadata
+            roles = item.get("role") or ["teacher", "technician", "admin"]
+            title = item.get("title") or ""
+            intent = item.get("intent") or ""
+            keywords = item.get("keywords") or []
+            
+            # Add to index
+            async with index_lock:
+                faiss_index.add(embs)
+                store_doc_ids.extend([doc_id] * len(chunks))
+                store_texts.extend(chunks)
+                store_roles.extend([roles] * len(chunks))
+                store_titles.extend([title] * len(chunks))
+                store_intents.extend([intent] * len(chunks))
+                store_keywords.extend([keywords] * len(chunks))
+            
+            total_chunks += len(chunks)
+            docs_processed += 1
+            
+            print(f"[train-batch] ✓ {i}/{len(inp.items)}: {doc_id} ({len(chunks)} chunks)")
+        
+        # Save to local store
+        print("[train-batch] Saving to local FAISS store...")
+        await async_save_index_and_meta()
+        
+        # Save to MongoDB
+        print("[train-batch] Saving to MongoDB...")
+        version = await async_save_index_to_mongodb()
+        
+        final_size = len(store_texts)
+        print(f"[train-batch] ✅ Complete: {docs_processed} docs, {total_chunks} chunks added, total: {final_size}")
+        
+        return TrainBatchOut(
+            success=True,
+            docs_processed=docs_processed,
+            chunks_added=total_chunks,
+            total_index=final_size,
+            version=version,
+            message=f"Successfully trained {docs_processed} documents"
+        )
+        
+    except Exception as e:
+        print(f"[train-batch] ❌ Error: {e}")
+        return TrainBatchOut(
+            success=False,
+            docs_processed=docs_processed,
+            chunks_added=total_chunks,
+            total_index=len(store_texts),
+            version="",
+            message=f"Training failed: {str(e)}"
+        )
+
+
+# ------------------------
 # Feedback Learning Endpoint
 # ------------------------
 class FeedbackUpdateIn(BaseModel):
