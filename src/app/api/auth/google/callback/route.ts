@@ -8,8 +8,30 @@ export async function GET(req: NextRequest) {
     const state = searchParams.get('state'); // userId encoded
 
     if (!code || !state) {
+      console.error('Missing code or state:', { code: !!code, state: !!state });
       return NextResponse.redirect(new URL('/profile?error=oauth_failed', req.url));
     }
+
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+    if (!clientId || !clientSecret || !appUrl) {
+      console.error('Missing environment variables:', {
+        GOOGLE_CLIENT_ID: !!clientId,
+        GOOGLE_CLIENT_SECRET: !!clientSecret,
+        NEXT_PUBLIC_APP_URL: !!appUrl,
+      });
+      return NextResponse.redirect(new URL('/profile?error=config_error', req.url));
+    }
+
+    const redirectUri = `${appUrl}/api/auth/google/callback`;
+    
+    console.log('Token exchange params:', {
+      redirectUri,
+      codeLength: code.length,
+      state,
+    });
 
     // Exchange code for tokens
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
@@ -17,15 +39,17 @@ export async function GET(req: NextRequest) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         code,
-        client_id: process.env.GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/google/callback`,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri,
         grant_type: 'authorization_code',
       }),
     });
 
     if (!tokenResponse.ok) {
-      throw new Error('Token exchange failed');
+      const errorData = await tokenResponse.json();
+      console.error('Token exchange failed:', errorData);
+      throw new Error(`Token exchange failed: ${JSON.stringify(errorData)}`);
     }
 
     const tokens = await tokenResponse.json();

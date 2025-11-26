@@ -49,7 +49,6 @@ export async function POST(req: NextRequest) {
         id: true,
         userID: true,
         fullName: true,
-        email: true,
         googleEmail: true,
         role: true,
       },

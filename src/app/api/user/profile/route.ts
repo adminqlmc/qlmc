@@ -28,7 +28,7 @@ export async function PUT(req: NextRequest) {
         id: true,
         userID: true,
         fullName: true,
-        email: true,
+        googleEmail: true,
         googleEmail: true,
         avatar: true,
         role: true,

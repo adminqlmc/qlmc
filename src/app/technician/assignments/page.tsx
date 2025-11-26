@@ -30,7 +30,7 @@ interface SupportRequest {
   user: {
     userID: string;
     fullName: string;
-    email: string;
+    googleEmail: string;
   };
   projector: {
     id: string;
@@ -332,7 +332,7 @@ export default function AssignmentsPage() {
             </div>
             <div className={styles.detailRow}>
               <strong>Email:</strong>
-              <span>{selectedRequest.user.email}</span>
+              <span>{selectedRequest.user.googleEmail}</span>
             </div>
             {selectedRequest.projector && (
               <>

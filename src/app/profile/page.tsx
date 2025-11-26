@@ -27,7 +27,15 @@ function ProfileContent() {
   useEffect(() => {
     const googleEmail = searchParams?.get('google_email');
     const googleId = searchParams?.get('google_id');
-    if (googleEmail && googleId) {
+    const error = searchParams?.get('error');
+    
+    if (error === 'oauth_failed') {
+      message.error('Liên kết Google thất bại. Vui lòng thử lại.');
+      window.history.replaceState({}, '', '/profile');
+    } else if (error === 'config_error') {
+      message.error('Lỗi cấu hình hệ thống. Vui lòng liên hệ quản trị viên.');
+      window.history.replaceState({}, '', '/profile');
+    } else if (googleEmail && googleId) {
       handleLinkGoogle(googleEmail, googleId);
     }
   }, [searchParams]);

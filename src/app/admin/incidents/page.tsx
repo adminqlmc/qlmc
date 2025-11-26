@@ -29,7 +29,7 @@ interface User {
   id: string;
   userID: string;
   fullName: string;
-  email: string;
+  googleEmail: string;
   avatar: string | null;
 }
 
@@ -55,7 +55,7 @@ interface Technician {
   id: string;
   userID: string;
   fullName: string;
-  email: string;
+  googleEmail: string;
   avatar: string | null;
 }
 

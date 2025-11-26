@@ -45,7 +45,6 @@ export async function POST(req: NextRequest) {
       data: {
         userID,
         fullName,
-        email: null,
         password: hashedPassword,
         role,
         isActive: isActive !== undefined ? isActive : true,
@@ -54,7 +53,7 @@ export async function POST(req: NextRequest) {
         id: true,
         userID: true,
         fullName: true,
-        email: true,
+        googleEmail: true,
         googleEmail: true,
         role: true,
         isActive: true,

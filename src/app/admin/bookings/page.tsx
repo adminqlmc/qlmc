@@ -13,7 +13,7 @@ interface Booking {
   user: {
     userID: string;
     fullName: string;
-    email: string;
+    googleEmail: string;
   };
   projectorId: string;
   projector: {

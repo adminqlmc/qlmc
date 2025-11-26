@@ -40,7 +40,7 @@ export async function GET(request: Request) {
             id: true,
             userID: true,
             fullName: true,
-            email: true,
+            googleEmail: true,
           },
         },
         projector: {

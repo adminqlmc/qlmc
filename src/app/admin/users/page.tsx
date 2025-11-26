@@ -10,7 +10,7 @@ interface User {
   id: string;
   userID: string;
   fullName: string;
-  email: string;
+  googleEmail: string;
   role: string;
   isActive: boolean;
   avatar?: string;
@@ -67,7 +67,7 @@ export default function UsersPage() {
       const filtered = users.filter(user => 
         user.userID.toLowerCase().includes(search) ||
         user.fullName.toLowerCase().includes(search) ||
-        user.email.toLowerCase().includes(search)
+        (user.googleEmail && user.googleEmail.toLowerCase().includes(search))
       );
       setFilteredUsers(filtered);
     }
@@ -80,7 +80,7 @@ export default function UsersPage() {
       form.setFieldsValue({
         userID: user.userID,
         fullName: user.fullName,
-        email: user.email,
+        email: user.googleEmail,
         role: user.role,
         isActive: user.isActive,
       });

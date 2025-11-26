@@ -86,7 +86,7 @@ export async function PUT(
             id: true,
             userID: true,
             fullName: true,
-            email: true,
+            googleEmail: true,
             avatar: true,
           },
         },

@@ -29,7 +29,7 @@ interface SupportRequest {
   user: {
     userID: string;
     fullName: string;
-    email: string;
+    googleEmail: string;
   };
   projector: {
     id: string;

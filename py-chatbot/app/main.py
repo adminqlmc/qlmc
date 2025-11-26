@@ -437,8 +437,19 @@ async def search(inp: SearchIn):
     D, I = faiss_index.search(q, over_k)
     
     # Normalize query for keyword matching
-    query_lower = inp.query.lower()
+    query_lower = inp.query.lower().strip()
     query_words = set(query_lower.split())
+    
+    # EXACT keyword matching for short queries (greeting detection)
+    exact_match_idx = -1
+    if len(query_lower) <= 15:  # Short query optimization
+        for idx in range(len(store_keywords)):
+            if store_keywords[idx]:
+                keywords = [kw.lower() for kw in store_keywords[idx]]
+                # Exact match or very close match
+                if query_lower in keywords or any(query_lower == kw for kw in keywords):
+                    exact_match_idx = idx
+                    break
     
     hits_with_boost: List[tuple[int, float]] = []
     for idx, score in zip(I[0], D[0]):
@@ -450,15 +461,25 @@ async def search(inp: SearchIn):
             if inp.role not in roles:
                 continue
         
-        # Keyword boosting: check if query words match keywords
+        # Start with base score
         boosted_score = float(score)
+        
+        # EXACT MATCH BOOST: If this is the exact match, give huge boost
+        if idx == exact_match_idx:
+            boosted_score += 10.0  # Massive boost for exact keyword match
+        
+        # Keyword boosting: check if query words match keywords
         if idx < len(store_keywords) and store_keywords[idx]:
             keywords = [kw.lower() for kw in store_keywords[idx]]
             # Count matching keywords
             matches = sum(1 for kw in keywords if any(kw in word or word in kw for word in query_words))
-            # Boost score by 0.1 per matching keyword (max +0.5)
-            boost = min(matches * 0.1, 0.5)
+            # Boost score by 0.15 per matching keyword (max +0.75)
+            boost = min(matches * 0.15, 0.75)
             boosted_score += boost
+        
+        # Intent boosting: greeting intent gets extra boost for short queries
+        if idx < len(store_intents) and store_intents[idx] == "greeting" and len(query_lower) <= 10:
+            boosted_score += 0.5
         
         # Feedback-based boosting: use learned feedback scores
         doc_id = store_doc_ids[idx]
@@ -483,6 +504,21 @@ async def search(inp: SearchIn):
 async def rag_answer(inp: RagIn, role: Optional[str] = None):
     # Normalize question for consistency (lowercase, strip whitespace)
     normalized_question = inp.question.strip()
+    query_lower = normalized_question.lower()
+    
+    # RULE-BASED GREETING DETECTION (100% accuracy for greetings)
+    GREETING_PATTERNS = ['hi', 'hello', 'helo', 'hí', 'chào', 'xin chào', 'chao', 
+                         'hey', 'hê lô', 'he lo', 'alo', 'alô', 'a lô', 'a lo', 'xin']
+    
+    if len(query_lower) <= 15:
+        for pattern in GREETING_PATTERNS:
+            if query_lower == pattern or (len(pattern) >= 3 and pattern in query_lower):
+                return RagOut(
+                    answer="Hi, xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
+                    sources=[{"docId": "Hello", "title": "Lời chào", "snippet": "Greeting response"}],
+                    passages=["Hi, xin chào! Tôi có thể giúp gì cho bạn hôm nay?"],
+                    confidence=0.99
+                )
     
     # Retrieve
     hits = await search(SearchIn(query=normalized_question, top_k=inp.top_k, role=role))

@@ -101,8 +101,9 @@ export async function POST(request: NextRequest) {
     console.log(`📈 [Daily AI Learning] Calculated scores for ${Object.keys(documentScores).length} documents`);
 
     // 3. Wake up Render server and sync scores
-    const pythonBackendUrl = process.env.NEXT_PUBLIC_PYTHON_BACKEND_URL || 'http://127.0.0.1:8001';
+    const pythonBackendUrl = process.env.PY_CHATBOT_URL || process.env.NEXT_PUBLIC_PYTHON_BACKEND_URL || 'http://127.0.0.1:8001';
     
+    console.log('🚀 [Daily AI Learning] Python Backend URL:', pythonBackendUrl);
     console.log('🚀 [Daily AI Learning] Waking up Render server...');
     
     // Import wake-up utility

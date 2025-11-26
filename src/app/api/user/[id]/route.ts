@@ -31,10 +31,10 @@ export async function PUT(
     }
 
     // Check if email is used by another user
-    if (email && email !== user.email) {
+    if (email && email !== user.googleEmail) {
       const existingEmail = await prisma.user.findFirst({
         where: {
-          email,
+          googleEmail: email,
           NOT: { id: userId },
         },
       });
@@ -52,7 +52,7 @@ export async function PUT(
       where: { id: userId },
       data: {
         fullName: fullName || user.fullName,
-        email: email || user.email,
+        googleEmail: email || user.googleEmail,
         role: role || user.role,
         isActive: isActive !== undefined ? isActive : user.isActive,
       },
@@ -60,7 +60,7 @@ export async function PUT(
         id: true,
         userID: true,
         fullName: true,
-        email: true,
+        googleEmail: true,
         role: true,
         isActive: true,
         createdAt: true,

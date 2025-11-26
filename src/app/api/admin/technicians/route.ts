@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         id: true,
         userID: true,
         fullName: true,
-        email: true,
+        googleEmail: true,
         avatar: true,
       },
       orderBy: {

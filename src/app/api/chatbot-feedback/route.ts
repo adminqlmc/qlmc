@@ -34,24 +34,39 @@ export async function POST(req: NextRequest) {
 
     // Real-time learning: Update Python backend with feedback score
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_PYTHON_BACKEND_URL || process.env.PY_CHATBOT_URL || 'http://127.0.0.1:8001';
+      // ✅ FIX: Prioritize server-side env var, fallback to NEXT_PUBLIC for local dev
+      const baseUrl = process.env.PY_CHATBOT_URL || 
+                      process.env.NEXT_PUBLIC_PYTHON_BACKEND_URL || 
+                      'http://127.0.0.1:8001';
+      
+      console.log('[Feedback] Updating Python backend:', baseUrl);
       
       // Extract docIds from sources
       if (sources && Array.isArray(sources)) {
         for (const docId of sources) {
           const feedbackScore = feedback === 'like' ? 1.0 : -0.5;
-          await fetch(`${baseUrl}/feedback/update`, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ docId, feedbackScore }),
-          }).catch(() => {
-            // Ignore errors - learning is best-effort
-          });
+          
+          try {
+            const response = await fetch(`${baseUrl}/feedback/update`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ docId, feedbackScore }),
+              signal: AbortSignal.timeout(5000), // 5s timeout
+            });
+            
+            if (response.ok) {
+              console.log(`[Feedback] ✅ Updated score for doc ${docId}`);
+            } else {
+              console.warn(`[Feedback] ⚠️ Failed to update doc ${docId}:`, response.status);
+            }
+          } catch (err) {
+            console.error(`[Feedback] ❌ Error updating doc ${docId}:`, err);
+          }
         }
       }
     } catch (e) {
       // Don't fail if learning update fails
-      console.error('Failed to update AI learning:', e);
+      console.error('[Feedback] Failed to update AI learning:', e);
     }
 
     return NextResponse.json({ 

@@ -73,7 +73,7 @@ export async function GET() {
           select: {
             userID: true,
             fullName: true,
-            email: true,
+            googleEmail: true,
           },
         },
         projector: {
@@ -104,7 +104,7 @@ export async function GET() {
           select: {
             userID: true,
             fullName: true,
-            email: true,
+            googleEmail: true,
           },
         },
         projector: {
