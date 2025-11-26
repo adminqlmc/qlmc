@@ -854,5 +854,71 @@
       "flickering"
     ],
     "content": "Hiện tại tôi chưa thể phân tích lỗi thiết bị cụ thể. Bạn có thể tắt máy chiếu, kiểm tra kết nối dây cáp, để máy nguội nếu quá nóng, và thử bật lại. Nếu vẫn gặp sự cố, vui lòng tạo yêu cầu hỗ trợ kỹ thuật để được giúp đỡ chi tiết hơn."
+  },
+  {
+    "docId": "password-reset",
+    "title": "Đặt lại mật khẩu",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "password_reset",
+    "keywords": [
+      "quên mật khẩu",
+      "quen mat khau",
+      "forgot password",
+      "đặt lại",
+      "dat lai",
+      "reset",
+      "mật khẩu",
+      "mat khau",
+      "password",
+      "không đăng nhập được",
+      "khong dang nhap duoc",
+      "cannot login",
+      "lấy lại",
+      "lay lai",
+      "recover",
+      "khôi phục",
+      "khoi phuc"
+    ],
+    "content": "ĐẶT LẠI MẬT KHẨU/PASSWORD RESET: Nếu quên mật khẩu, truy cập trang đăng nhập > Nhấn 'Quên mật khẩu?' > Nhập Google Email đã đăng ký > Nhấn 'Gửi link đặt lại mật khẩu'. Kiểm tra email (kể cả thư mục Spam/Junk) > Nhấn vào link trong email (hiệu lực 1 giờ) > Nhập mật khẩu mới (tối thiểu 8 ký tự, có chữ hoa, chữ thường, số, ký tự đặc biệt) > Xác nhận mật khẩu > Nhấn 'Đặt lại mật khẩu'. LƯU Ý: Link chỉ dùng được 1 lần. Nếu hết hạn, yêu cầu link mới."
+  },
+  {
+    "docId": "profile-update",
+    "title": "Cập nhật thông tin cá nhân",
+    "role": [
+      "teacher",
+      "technician",
+      "admin"
+    ],
+    "intent": "profile_management",
+    "keywords": [
+      "thông tin cá nhân",
+      "thong tin ca nhan",
+      "profile",
+      "cập nhật",
+      "cap nhat",
+      "update",
+      "thay đổi",
+      "thay doi",
+      "change",
+      "chỉnh sửa",
+      "chinh sua",
+      "edit",
+      "ảnh đại diện",
+      "anh dai dien",
+      "avatar",
+      "tên",
+      "ten",
+      "name",
+      "số điện thoại",
+      "so dien thoai",
+      "phone",
+      "khoa",
+      "department"
+    ],
+    "content": "CẬP NHẬT THÔNG TIN CÁ NHÂN/PROFILE UPDATE: Nhấn vào tên người dùng (góc trên bên phải) > Chọn 'Hồ sơ cá nhân' hoặc 'Profile'. THÔNG TIN CÓ THỂ SỬA: Tên đầy đủ (fullName), Số điện thoại (phoneNumber), Khoa/Bộ môn (department - chỉ Teacher). ẢNH ĐẠI DIỆN: Nhấn vào ảnh hiện tại > Chọn file ảnh mới (JPG/PNG, tối đa 5MB) > Tải lên. THÔNG TIN KHÔNG THỂ SỬA: Google Email (dùng để đăng nhập), User ID, Vai trò (role). Sau khi sửa, nhấn 'Lưu thay đổi'. Thông tin cập nhật ngay lập tức."
   }
 ]

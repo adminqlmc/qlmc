@@ -7,12 +7,18 @@ export const maxDuration = 300;
 
 // Background training function
 async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
+  const startTime = Date.now();
+  console.log(`[train-bg] Starting training for ${items.length} documents at ${new Date().toISOString()}`);
+  
   try {
     let totalChunks = 0;
     
-    for (const item of items) {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
       const chunks = chunkText(item.content, 400);
       totalChunks += chunks.length;
+      
+      console.log(`[train-bg] Processing ${i + 1}/${items.length}: ${item.docId} (${chunks.length} chunks)`);
       
       const rolesAllowed = item.role || ['teacher', 'technician', 'admin'];
       
@@ -41,18 +47,24 @@ async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
         console.error(`[train-bg] Embed failed for ${item.docId}:`, errText);
         throw new Error(`Embed failed: ${errText}`);
       }
+      
+      const result = await res.json();
+      console.log(`[train-bg] ✓ ${item.docId}: ${result.added || chunks.length} chunks added, total: ${result.total_index || 'unknown'}`);
     }
     
     // Save to local store
+    console.log('[train-bg] Saving to local FAISS store...');
     await fetch(`${baseUrl}/index/save`, { method: 'POST' }).catch(() => undefined);
     
     // Save to MongoDB
+    console.log('[train-bg] Saving to MongoDB...');
     const mongoSaveRes = await fetch(`${baseUrl}/index/save-to-mongodb`, { method: 'POST' });
     const mongoResult = await mongoSaveRes.json();
     console.log('[train-bg] MongoDB save result:', mongoResult);
     
     // Trigger auto-sync to Git
     if (mongoResult?.success) {
+      console.log('[train-bg] Triggering auto-sync to Git...');
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
       await fetch(`${appUrl}/api/auto-sync-index`, {
         method: 'POST',
@@ -62,8 +74,9 @@ async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
       console.log('[train-bg] Auto-sync completed');
     }
     
-    console.log('[train-bg] Training completed successfully');
-    return { success: true, totalChunks };
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    console.log(`[train-bg] ✅ Training completed successfully in ${duration}s - ${totalChunks} chunks from ${items.length} docs`);
+    return { success: true, totalChunks, duration };
     
   } catch (error: any) {
     console.error('[train-bg] Training failed:', error);
