@@ -80,7 +80,7 @@ export default function UsersPage() {
       form.setFieldsValue({
         userID: user.userID,
         fullName: user.fullName,
-        email: user.googleEmail,
+        googleEmail: user.googleEmail,
         role: user.role,
         isActive: user.isActive,
       });
@@ -233,10 +233,11 @@ export default function UsersPage() {
       width: 200,
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Google Email',
+      dataIndex: 'googleEmail',
+      key: 'googleEmail',
       width: 250,
+      render: (googleEmail: string) => googleEmail || <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>Chưa có</span>,
     },
     {
       title: 'Vai trò',
@@ -419,6 +420,19 @@ export default function UsersPage() {
             rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
           >
             <Input prefix={<UserOutlined />} placeholder="Nhập họ và tên" />
+          </Form.Item>
+
+          <Form.Item
+            label="Google Email"
+            name="googleEmail"
+            rules={[
+              { type: 'email', message: 'Email không hợp lệ!' }
+            ]}
+          >
+            <Input 
+              prefix={<MailOutlined />} 
+              placeholder="example@gmail.com (tùy chọn)" 
+            />
           </Form.Item>
 
           <Form.Item

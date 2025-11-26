@@ -131,11 +131,11 @@ function gitSyncToRemote(meta) {
     
     // Only override if not already set to a real email
     if (!currentEmail || currentEmail.includes('@qlmc.local')) {
-      runCommand('git config user.email "doantran28092005@gmail.com"', { 
+      runCommand('git config user.email "adqlmc@gmail.com"', { 
         silent: true, 
         ignoreError: true 
       });
-      runCommand('git config user.name "Trần Phương Đoàn"', { 
+      runCommand('git config user.name "adminqlmc"', { 
         silent: true, 
         ignoreError: true 
       });
@@ -171,11 +171,11 @@ function gitSyncToRemote(meta) {
     
     if (pyBotStatus && pyBotStatus.trim()) {
       // Configure git in py-chatbot repo
-      runCommand('git -C py-chatbot config user.email "doantran28092005@gmail.com"', { 
+      runCommand('git -C py-chatbot config user.email "adqlmc@gmail.com"', { 
         silent: true, 
         ignoreError: true 
       });
-      runCommand('git -C py-chatbot config user.name "Trần Phương Đoàn"', { 
+      runCommand('git -C py-chatbot config user.name "adminqlmc"', { 
         silent: true, 
         ignoreError: true 
       });

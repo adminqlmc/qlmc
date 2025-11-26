@@ -305,7 +305,6 @@ export default function TeacherBookingPage() {
               <TimePicker
                 style={{ width: '100%' }}
                 format="HH:mm"
-                minuteStep={30}
                 showNow={false}
               />
             </Form.Item>
@@ -318,7 +317,6 @@ export default function TeacherBookingPage() {
               <TimePicker
                 style={{ width: '100%' }}
                 format="HH:mm"
-                minuteStep={30}
                 showNow={false}
               />
             </Form.Item>

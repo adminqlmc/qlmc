@@ -89,7 +89,7 @@ const getMenuItems = (role?: string, handleLogout?: () => void) => {
       { 
         key: '/logout', 
         icon: <LogoutOutlined />, 
-        label: <span onClick={handleLogout}>Đăng xuất</span>,
+        label: 'Đăng xuất',
         onClick: handleLogout,
       },
     ]},
