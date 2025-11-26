@@ -2,6 +2,69 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAnyRole } from '@/utils/auth';
 import { KnowledgeItem } from '@/types/knowledge';
 
+// Set max duration to 5 minutes (Vercel limit)
+export const maxDuration = 300;
+
+// Background training function
+async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
+  try {
+    let totalChunks = 0;
+    
+    for (const item of items) {
+      const chunks = chunkText(item.content, 400);
+      totalChunks += chunks.length;
+      
+      const rolesAllowed = item.role || ['teacher', 'technician', 'admin'];
+      
+      const res = await fetch(`${baseUrl}/embed`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ 
+          docId: item.docId, 
+          chunks, 
+          rolesAllowed,
+          title: item.title,
+          intent: item.intent,
+          keywords: item.keywords
+        }),
+        signal: AbortSignal.timeout(30000), // 30s timeout per item
+      });
+      
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error(`[train-bg] Embed failed for ${item.docId}:`, errText);
+        throw new Error(`Embed failed: ${errText}`);
+      }
+    }
+    
+    // Save to local store
+    await fetch(`${baseUrl}/index/save`, { method: 'POST' }).catch(() => undefined);
+    
+    // Save to MongoDB
+    const mongoSaveRes = await fetch(`${baseUrl}/index/save-to-mongodb`, { method: 'POST' });
+    const mongoResult = await mongoSaveRes.json();
+    console.log('[train-bg] MongoDB save result:', mongoResult);
+    
+    // Trigger auto-sync to Git
+    if (mongoResult?.success) {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      await fetch(`${appUrl}/api/auto-sync-index`, {
+        method: 'POST',
+      }).catch(err => {
+        console.error('[train-bg] Auto-sync failed:', err);
+      });
+      console.log('[train-bg] Auto-sync completed');
+    }
+    
+    console.log('[train-bg] Training completed successfully');
+    return { success: true, totalChunks };
+    
+  } catch (error: any) {
+    console.error('[train-bg] Training failed:', error);
+    return { success: false, error: error.message };
+  }
+}
+
 function chunkText(text: string, maxLen = 300): string[] {
   const parts = text
     .replace(/\r\n/g, ' ')
@@ -45,63 +108,30 @@ export async function POST(req: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_PYTHON_BACKEND_URL || process.env.PY_CHATBOT_URL || 'http://127.0.0.1:8001';
 
-    let totalChunks = 0;
+    // Calculate estimated chunks
+    let estimatedChunks = 0;
     for (const item of items) {
-      if (!item?.docId || !item?.content) {
-        return NextResponse.json({ error: 'Each item must have docId and content' }, { status: 400 });
-      }
       const chunks = chunkText(item.content, 400);
-      totalChunks += chunks.length;
-      
-      // Use 'role' field from the new format, fallback to default roles
-      const rolesAllowed = item.role || ['teacher', 'technician', 'admin'];
-      
-      const res = await fetch(`${baseUrl}/embed`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ 
-          docId: item.docId, 
-          chunks, 
-          rolesAllowed,
-          title: item.title,
-          intent: item.intent,
-          keywords: item.keywords
-        }),
-      });
-      if (!res.ok) {
-        const errText = await res.text();
-        return NextResponse.json({ error: 'Embed failed', detail: errText }, { status: 502 });
-      }
+      estimatedChunks += chunks.length;
     }
-
-    // Save to local store
-    await fetch(`${baseUrl}/index/save`, { method: 'POST' }).catch(() => undefined);
     
-    // Save to MongoDB for persistence
-    const mongoSaveRes = await fetch(`${baseUrl}/index/save-to-mongodb`, { method: 'POST' }).catch(() => null);
-    const mongoResult = mongoSaveRes ? await mongoSaveRes.json() : null;
-    console.log('[train] MongoDB save result:', mongoResult);
+    // Start training in background (don't await)
+    trainInBackground(items, baseUrl).catch(err => {
+      console.error('[train] Background training error:', err);
+    });
 
-    // Auto-sync to Git (fire-and-forget, don't wait)
-    if (mongoResult?.success) {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-      fetch(`${appUrl}/api/auto-sync-index`, {
-        method: 'POST',
-      }).catch(err => {
-        console.error('[train] Auto-sync trigger failed (non-blocking):', err);
-      });
-      console.log('[train] Auto-sync to Git triggered in background');
-    }
-
+    // Return immediately
     return NextResponse.json({ 
       ok: true, 
+      message: 'Training started in background. This will take 5-10 minutes.',
       docs: items.length, 
-      totalChunks,
-      mongoSaved: mongoResult?.success || false,
-      mongoVersion: mongoResult?.version,
-      message: 'Training completed. Index will be auto-synced to Git in background.'
+      estimatedChunks,
+      status: 'processing',
+      note: 'Index will be automatically synced to Git when training completes.'
     });
-  } catch (e: any) {
-    return NextResponse.json({ error: 'Train failed', detail: String(e?.message || e) }, { status: 500 });
+    
+  } catch (error: any) {
+    console.error('[train] Error:', error);
+    return NextResponse.json({ error: 'Training failed', detail: error.message }, { status: 500 });
   }
 }
