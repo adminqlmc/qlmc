@@ -121,18 +121,29 @@ function gitSyncToRemote(meta) {
   console.log('📝 Changes detected:');
   console.log(status);
   
-  // Configure git if needed
+  // Configure git with GitHub email to avoid Vercel check failure
   try {
-    runCommand('git config user.email "admin@qlmc.local"', { 
+    // Get current Git config
+    const currentEmail = runCommand('git config user.email', { 
       silent: true, 
       ignoreError: true 
-    });
-    runCommand('git config user.name "QLMC Auto Sync"', { 
-      silent: true, 
-      ignoreError: true 
-    });
+    })?.trim();
+    
+    // Only override if not already set to a real email
+    if (!currentEmail || currentEmail.includes('@qlmc.local')) {
+      runCommand('git config user.email "doantran28092005@gmail.com"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      runCommand('git config user.name "Trần Phương Đoàn"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      console.log('ℹ️  Git config updated to use GitHub account email');
+    }
   } catch (e) {
-    // Git config already set, ignore
+    // Git config error, use default
+    console.warn('⚠️  Could not set Git config, using default');
   }
   
   // Git add
