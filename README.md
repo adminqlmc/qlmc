@@ -169,7 +169,7 @@
 
 ```bash
 # Clone project về máy
-git clone https://github.com/tpd0905/qlmc.git
+git clone https://github.com/adminqlmc/qlmc.git
 
 # Di chuyển vào thư mục project
 cd qlmc
