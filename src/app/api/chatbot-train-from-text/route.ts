@@ -16,7 +16,8 @@ async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
       
       const rolesAllowed = item.role || ['teacher', 'technician', 'admin'];
       
-      const res = await fetch(`${baseUrl}/embed`, {
+      // Manual timeout with Promise.race (compatible with all Node.js versions)
+      const fetchPromise = fetch(`${baseUrl}/embed`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ 
@@ -27,8 +28,13 @@ async function trainInBackground(items: KnowledgeItem[], baseUrl: string) {
           intent: item.intent,
           keywords: item.keywords
         }),
-        signal: AbortSignal.timeout(30000), // 30s timeout per item
       });
+      
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`Timeout after 30s for ${item.docId}`)), 30000)
+      );
+      
+      const res = await Promise.race([fetchPromise, timeoutPromise]) as Response;
       
       if (!res.ok) {
         const errText = await res.text();
