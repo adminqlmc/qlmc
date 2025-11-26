@@ -830,7 +830,8 @@ async def train_batch(inp: TrainBatchIn):
         
         # Save to MongoDB
         print("[train-batch] Saving to MongoDB...")
-        version = await async_save_index_to_mongodb()
+        mongo_result = await index_save_to_mongodb()
+        version = mongo_result.get("version", "")
         
         final_size = len(store_texts)
         print(f"[train-batch] ✅ Complete: {docs_processed} docs, {total_chunks} chunks added, total: {final_size}")
