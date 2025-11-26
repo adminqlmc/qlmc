@@ -147,22 +147,58 @@ function gitSyncToRemote(meta) {
   }
   
   // Git add
-  console.log('\n📝 Adding files to Git...');
+  console.log('\n📝 Adding files to Git (main repo)...');
   runCommand('git add py-chatbot/prebuilt/faiss.index py-chatbot/prebuilt/meta.json');
-  console.log('✅ Files staged');
+  console.log('✅ Files staged in main repo');
   
-  // Git commit
+  // Git commit in main repo
   const chunks = meta.doc_ids?.length || 0;
   const timestamp = new Date().toISOString().split('T')[0];
   const commitMsg = `chore: Auto-sync FAISS index (${chunks} chunks) - ${timestamp}`;
   
-  console.log('\n💾 Committing changes...');
+  console.log('\n💾 Committing changes (main repo)...');
   console.log(`   Message: ${commitMsg}`);
   runCommand(`git commit -m "${commitMsg}"`);
-  console.log('✅ Committed');
+  console.log('✅ Committed to main repo');
   
-  // Git push
-  console.log('\n📤 Pushing to GitHub...');
+  // Also commit in submodule (py-chatbot)
+  console.log('\n📝 Committing to submodule (py-chatbot)...');
+  try {
+    const submoduleStatus = runCommand('git -C py-chatbot status --porcelain prebuilt/', { 
+      silent: true,
+      ignoreError: true
+    });
+    
+    if (submoduleStatus && submoduleStatus.trim()) {
+      // Configure git in submodule
+      runCommand('git -C py-chatbot config user.email "doantran28092005@gmail.com"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      runCommand('git -C py-chatbot config user.name "Trần Phương Đoàn"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      
+      runCommand('git -C py-chatbot add prebuilt/faiss.index prebuilt/meta.json');
+      runCommand(`git -C py-chatbot commit -m "${commitMsg}"`);
+      runCommand('git -C py-chatbot push origin main');
+      console.log('✅ Submodule committed and pushed');
+      
+      // Update submodule reference in main repo
+      console.log('\n📝 Updating submodule reference...');
+      runCommand('git add py-chatbot');
+      runCommand(`git commit -m "chore: Update py-chatbot submodule reference"`);
+      console.log('✅ Submodule reference updated');
+    } else {
+      console.log('ℹ️  No changes in submodule');
+    }
+  } catch (e) {
+    console.warn('⚠️  Could not commit to submodule:', e.message);
+  }
+  
+  // Git push main repo
+  console.log('\n📤 Pushing main repo to GitHub...');
   runCommand('git push origin main');
   console.log('✅ Pushed to GitHub');
   
