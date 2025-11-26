@@ -15,13 +15,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if user exists with this email (regular or Google email)
+    // Check if user exists with this email (Google email only)
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email },
-          { googleEmail: email },
-        ],
+        googleEmail: email,
       },
     });
 
@@ -32,13 +29,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Determine which email to send verification code to
-    // Priority: googleEmail (if linked) > regular email
-    const targetEmail = user.googleEmail || user.email;
+    // Use Google email for verification
+    const targetEmail = user.googleEmail;
     
     if (!targetEmail) {
       return NextResponse.json(
-        { message: 'Tài khoản chưa có email. Vui lòng liên kết Google hoặc liên hệ admin.' },
+        { message: 'Tài khoản chưa liên kết Google. Vui lòng liên hệ admin để reset mật khẩu.' },
         { status: 400 }
       );
     }

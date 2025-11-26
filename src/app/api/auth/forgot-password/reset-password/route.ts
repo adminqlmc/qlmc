@@ -46,13 +46,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find user by email (check both regular and Google email)
+    // Find user by Google email
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email },
-          { googleEmail: email },
-        ],
+        googleEmail: email,
       },
     });
 
