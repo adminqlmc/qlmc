@@ -82,12 +82,24 @@ export async function POST(req: NextRequest) {
     const mongoResult = mongoSaveRes ? await mongoSaveRes.json() : null;
     console.log('[train] MongoDB save result:', mongoResult);
 
+    // Auto-sync to Git (fire-and-forget, don't wait)
+    if (mongoResult?.success) {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      fetch(`${appUrl}/api/auto-sync-index`, {
+        method: 'POST',
+      }).catch(err => {
+        console.error('[train] Auto-sync trigger failed (non-blocking):', err);
+      });
+      console.log('[train] Auto-sync to Git triggered in background');
+    }
+
     return NextResponse.json({ 
       ok: true, 
       docs: items.length, 
       totalChunks,
       mongoSaved: mongoResult?.success || false,
-      mongoVersion: mongoResult?.version
+      mongoVersion: mongoResult?.version,
+      message: 'Training completed. Index will be auto-synced to Git in background.'
     });
   } catch (e: any) {
     return NextResponse.json({ error: 'Train failed', detail: String(e?.message || e) }, { status: 500 });
