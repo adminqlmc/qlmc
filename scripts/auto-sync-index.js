@@ -149,22 +149,52 @@ function gitSyncToRemote(meta) {
   // Git add
   console.log('\n📝 Adding files to Git...');
   runCommand('git add py-chatbot/prebuilt/faiss.index py-chatbot/prebuilt/meta.json');
-  console.log('✅ Files staged');
+  console.log('✅ Files staged in main repo');
   
   // Git commit
   const chunks = meta.doc_ids?.length || 0;
   const timestamp = new Date().toISOString().split('T')[0];
   const commitMsg = `chore: Auto-sync FAISS index (${chunks} chunks) - ${timestamp}`;
   
-  console.log('\n💾 Committing changes...');
+  console.log('\n💾 Committing to main repo...');
   console.log(`   Message: ${commitMsg}`);
   runCommand(`git commit -m "${commitMsg}"`);
-  console.log('✅ Committed');
+  console.log('✅ Committed to main repo');
   
-  // Git push
-  console.log('\n📤 Pushing to GitHub...');
+  // Also commit to py-chatbot repo (separate repo inside main repo)
+  console.log('\n📝 Committing to py-chatbot repo...');
+  try {
+    const pyBotStatus = runCommand('git -C py-chatbot status --porcelain prebuilt/', { 
+      silent: true,
+      ignoreError: true
+    });
+    
+    if (pyBotStatus && pyBotStatus.trim()) {
+      // Configure git in py-chatbot repo
+      runCommand('git -C py-chatbot config user.email "doantran28092005@gmail.com"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      runCommand('git -C py-chatbot config user.name "Trần Phương Đoàn"', { 
+        silent: true, 
+        ignoreError: true 
+      });
+      
+      runCommand('git -C py-chatbot add prebuilt/faiss.index prebuilt/meta.json');
+      runCommand(`git -C py-chatbot commit -m "${commitMsg}"`);
+      runCommand('git -C py-chatbot push origin main');
+      console.log('✅ py-chatbot repo committed and pushed');
+    } else {
+      console.log('ℹ️  No changes in py-chatbot repo (already synced)');
+    }
+  } catch (e) {
+    console.warn('⚠️  Could not commit to py-chatbot repo:', e.message);
+  }
+  
+  // Git push main repo
+  console.log('\n📤 Pushing main repo to GitHub...');
   runCommand('git push origin main');
-  console.log('✅ Pushed to GitHub');
+  console.log('✅ Main repo pushed to GitHub');
   
   return true;
 }
