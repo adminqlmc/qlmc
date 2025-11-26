@@ -682,6 +682,44 @@ async def index_stats():
     }
 
 
+@app.get("/index/download")
+async def download_index_file(file: str = "index"):
+    """
+    Download FAISS index or metadata file for syncing to Git.
+    
+    Query params:
+        file: "index" for faiss.index, "meta" for meta.json
+    
+    Returns:
+        File content as response
+    """
+    from fastapi.responses import FileResponse, JSONResponse
+    
+    if file == "index":
+        if not os.path.exists(INDEX_PATH):
+            return JSONResponse({"error": "Index file not found"}, status_code=404)
+        return FileResponse(
+            INDEX_PATH, 
+            media_type="application/octet-stream",
+            filename="faiss.index"
+        )
+    
+    elif file == "meta":
+        if not os.path.exists(META_PATH):
+            return JSONResponse({"error": "Meta file not found"}, status_code=404)
+        return FileResponse(
+            META_PATH,
+            media_type="application/json", 
+            filename="meta.json"
+        )
+    
+    else:
+        return JSONResponse(
+            {"error": "Invalid file parameter. Use 'index' or 'meta'"}, 
+            status_code=400
+        )
+
+
 # ------------------------
 # Feedback Learning Endpoint
 # ------------------------
