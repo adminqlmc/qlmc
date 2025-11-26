@@ -14,7 +14,8 @@
     "ai-learning": "node scripts/daily-ai-learning.js",
     "ai-seed": "python seed-ai-sync.py",
     "ai-seed-local": "python seed-ai.py",
-    "ai-clear": "python clear-ai.py"
+    "ai-clear": "python clear-ai.py",
+    "download-index": "node scripts/download-faiss-index.js"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.1.0",
