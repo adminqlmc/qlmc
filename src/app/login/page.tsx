@@ -103,6 +103,9 @@ export default function LoginPage() {
         {/* Right Side - Image */}
         <div className={styles.imageSection}>
           <div className={styles.imageOverlay}>
+            <a href="https://ictu.edu.vn/" target="_blank" rel="noopener noreferrer" className={styles.logoLink}>
+              <img src="/logo-ictu.png" alt="ICTU Logo" className={styles.logoImage} />
+            </a>
           </div>
         </div>
       </div>
