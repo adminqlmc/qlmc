@@ -19,7 +19,7 @@ export async function startScheduledProjectorMaintenanceIfDue(): Promise<number>
     select: { projectorId: true },
   });
 
-  const projectorIds = Array.from(new Set(due.map(d => d.projectorId!).filter(Boolean)));
+  const projectorIds = Array.from(new Set(due.map((d: any) => d.projectorId!).filter(Boolean)));
   if (projectorIds.length === 0) return 0;
 
   // Update projectors that are not already in maintenance

@@ -114,8 +114,8 @@ export async function POST(req: NextRequest) {
     }
 
     // 7. Calculate statistics
-    const totalLikes = allFeedback.filter((f) => f.feedback === 'like').length;
-    const totalDislikes = allFeedback.filter((f) => f.feedback === 'dislike').length;
+    const totalLikes = allFeedback.filter((f: any) => f.feedback === 'like').length;
+    const totalDislikes = allFeedback.filter((f: any) => f.feedback === 'dislike').length;
     const total = allFeedback.length;
 
     const stats: LearningStats = {

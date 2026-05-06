@@ -200,8 +200,8 @@ export async function POST(request: NextRequest) {
     const learningLog: LearningLogEntry = {
       timestamp: new Date().toISOString(),
       totalFeedback: feedbackData.length,
-      likeCount: feedbackData.filter(f => f.feedback === 'like').length,
-      dislikeCount: feedbackData.filter(f => f.feedback === 'dislike').length,
+      likeCount: feedbackData.filter((f: any) => f.feedback === 'like').length,
+      dislikeCount: feedbackData.filter((f: any) => f.feedback === 'dislike').length,
       documentsUpdated: updatedCount,
       topQuestions,
       improvements: [

@@ -23,16 +23,16 @@ export async function GET(req: NextRequest) {
 
     // Phân nhóm theo like/dislike
     const liked = feedbackData
-      .filter(f => f.feedback === 'like')
-      .map(f => ({
+      .filter((f: any) => f.feedback === 'like')
+      .map((f: any) => ({
         question: f.question,
         answer: f.answer,
         sources: f.sources ? JSON.parse(f.sources) : [],
       }));
 
     const disliked = feedbackData
-      .filter(f => f.feedback === 'dislike')
-      .map(f => ({
+      .filter((f: any) => f.feedback === 'dislike')
+      .map((f: any) => ({
         question: f.question,
         answer: f.answer,
         sources: f.sources ? JSON.parse(f.sources) : [],

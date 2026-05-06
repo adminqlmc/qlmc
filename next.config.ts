@@ -4,10 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   
-  // Disable ESLint and TypeScript checks during build for faster deployment
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Disable TypeScript checks during build for faster deployment
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -31,6 +28,8 @@ const nextConfig: NextConfig = {
     
     return config;
   },
+  // Empty turbopack config to suppress Turbopack vs webpack conflict warning
+  turbopack: {},
 };
 
 export default nextConfig;

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Parse JSON fields
-    const parsedLogs = logs.map(log => ({
+    const parsedLogs = logs.map((log: any) => ({
       id: log.id,
       totalFeedback: log.totalFeedback,
       likeCount: log.likeCount,
@@ -41,11 +41,11 @@ export async function GET(request: NextRequest) {
     // Tính stats tổng quan
     const stats = {
       totalLogs: logs.length,
-      totalFeedbackProcessed: logs.reduce((sum, log) => sum + log.totalFeedback, 0),
-      totalLikes: logs.reduce((sum, log) => sum + log.likeCount, 0),
-      totalDislikes: logs.reduce((sum, log) => sum + log.dislikeCount, 0),
-      avgFeedbackPerDay: logs.length > 0 ? logs.reduce((sum, log) => sum + log.totalFeedback, 0) / logs.length : 0,
-      avgDocumentsUpdatedPerDay: logs.length > 0 ? logs.reduce((sum, log) => sum + log.documentsUpdated, 0) / logs.length : 0,
+      totalFeedbackProcessed: logs.reduce((sum: number, log: any) => sum + log.totalFeedback, 0),
+      totalLikes: logs.reduce((sum: number, log: any) => sum + log.likeCount, 0),
+      totalDislikes: logs.reduce((sum: number, log: any) => sum + log.dislikeCount, 0),
+      avgFeedbackPerDay: logs.length > 0 ? logs.reduce((sum: number, log: any) => sum + log.totalFeedback, 0) / logs.length : 0,
+      avgDocumentsUpdatedPerDay: logs.length > 0 ? logs.reduce((sum: number, log: any) => sum + log.documentsUpdated, 0) / logs.length : 0,
     };
 
     return NextResponse.json({

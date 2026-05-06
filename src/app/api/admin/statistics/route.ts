@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     // Calculate device usage data (total hours per device)
     const deviceUsageMap = new Map<string, { name: string; hours: number; bookingCount: number }>();
     
-    bookings.forEach((booking) => {
+    bookings.forEach((booking: any) => {
       const deviceId = booking.projector.id;
       const deviceName = `${booking.projector.name} (${booking.projector.room})`;
       const duration = dayjs(booking.endTime).diff(dayjs(booking.startTime), 'hour', true);
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
     });
 
     const statusMap = new Map<string, number>();
-    allProjectors.forEach((projector) => {
+    allProjectors.forEach((projector: any) => {
       const status = projector.status;
       statusMap.set(status, (statusMap.get(status) || 0) + 1);
     });
@@ -100,11 +100,11 @@ export async function GET(request: NextRequest) {
 
     // Get rating distribution from reviews
     const reviews = bookings
-      .filter((b) => b.review)
-      .map((b) => b.review!);
+      .filter((b: any) => b.review)
+      .map((b: any) => b.review!);
 
     const ratingMap = new Map<number, number>();
-    reviews.forEach((review) => {
+    reviews.forEach((review: any) => {
       const rating = review.rating;
       ratingMap.set(rating, (ratingMap.get(rating) || 0) + 1);
     });
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
       .filter(item => item.value > 0);
 
     // Calculate totals
-    const totalHours = bookings.reduce((sum, booking) => {
+    const totalHours = bookings.reduce((sum: number, booking: any) => {
       return sum + dayjs(booking.endTime).diff(dayjs(booking.startTime), 'hour', true);
     }, 0);
 

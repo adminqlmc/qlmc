@@ -154,11 +154,15 @@ export default function ForgotPasswordPage() {
 
           {/* Progress Steps */}
           <div style={{ marginBottom: 24 }}>
-            <Steps current={currentStep} size="small">
-              <Steps.Step title="Email" icon={<MailOutlined />} />
-              <Steps.Step title="Xác thực" icon={<SafetyOutlined />} />
-              <Steps.Step title="Mật khẩu mới" icon={<LockOutlined />} />
-            </Steps>
+            <Steps 
+              current={currentStep} 
+              size="small"
+              items={[
+                { title: "Email", icon: <MailOutlined /> },
+                { title: "Xác thực", icon: <SafetyOutlined /> },
+                { title: "Mật khẩu mới", icon: <LockOutlined /> },
+              ]}
+            />
           </div>
           
           {error && (
